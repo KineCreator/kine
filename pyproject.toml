@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kine-engine"
+version = "1.0.1"
+description = "Mathematical animation engine for rendering LaTeX animations directly to MP4"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "opencv-python",
+    "pillow"
+]
+
+[project.scripts]
+kine = "kine.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kine"]
+
+[project.urls]
+Homepage = "https://github.com/YOUR_GITHUB_USERNAME/kine-engine"
+Repository = "https://github.com/YOUR_GITHUB_USERNAME/kine-engine"
+"Bug Tracker" = "https://github.com/YOUR_GITHUB_USERNAME/kine-engine/issues"

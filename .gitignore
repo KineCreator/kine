@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Сборка и пакеты
+build/
+devel/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Окружения
+venv/
+.venv/
+env/
+
+# IDE и редактирование
+.idea/
+.vscode/
+
+# Сгенерированные медиа-файлы
+*.mp4
+*.png
+*.jpg

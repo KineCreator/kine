@@ -1,5 +1,3 @@
-# src/kine/animation/timeline.py
-
 import os
 import sys
 import cv2
@@ -38,6 +36,11 @@ class Timeline:
         dpi = 100
         fig_w, fig_h = w / dpi, h / dpi
 
+        # ФИКС: Масштабируем размер шрифта пропорционально высоте экрана.
+        # Базовый размер 48pt рассчитан под 1080p и идеально масштабируется для 480p, 720p и 4K.
+        scale_factor = h / 1080.0
+        dynamic_fontsize = max(12, int(48 * scale_factor))
+
         fig, ax = plt.subplots(figsize=(fig_w, fig_h), dpi=dpi)
         fig.patch.set_facecolor('#0D0E15')
         ax.set_facecolor('#0D0E15')
@@ -56,7 +59,7 @@ class Timeline:
         ax.text(
             0.5, 0.5, clean_latex,
             color='#39FF14',
-            fontsize=34,
+            fontsize=dynamic_fontsize,
             ha='center',
             va='center',
             transform=ax.transAxes
@@ -67,7 +70,13 @@ class Timeline:
         buf = np.asarray(fig.canvas.buffer_rgba())
         plt.close(fig)
 
-        return cv2.cvtColor(buf, cv2.COLOR_RGBA2BGR)
+        frame = cv2.cvtColor(buf, cv2.COLOR_RGBA2BGR)
+
+        # Устраняем погрешность округления Matplotlib
+        if frame.shape[1] != w or frame.shape[0] != h:
+            frame = cv2.resize(frame, (w, h), interpolation=cv2.INTER_AREA)
+
+        return frame
 
     def reveal(self, obj, duration_seconds: float = 1.0):
         self.current_obj = obj
